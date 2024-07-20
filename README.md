@@ -12,12 +12,15 @@ This can be a traditional low power transmitter, however it should also have an 
 
 GPS lock (for timing, possible uplink of position to admin side) is power hungry, need to power down for best battery life. Do we also only want TOTP dispayed on button press? Keep internal log for later validation (we at least will know *time* someone pressed button, even if we don't know *who*
 
+
 ### coordinator / scoring system
 Likely a simple web application - A participant can register a 'find' by sending the cache ID and TOTP code to the coordinator. If the code is valid (secret hash decodes OK within time window) the participant (validated via their Callsign / APRS passphrase) gains a score. 
 
 Using the TOTP in addition to the cache ID should prevent replay attacks (only the first valid decode of TOTP + cacheID is credited - This will rate limit the throughput of cache scorers - if multiple people arrive at a cache at the same time, each participant will have to wait for a unique code before they can claim the find. If the window is set small (high throughput of cache finders) there is a risk TOTP clocks will be out of sync. Too large a validity window reduces the risk of clock skew, but slows down the rate people can claim a cache. Adjust as needed (I suspect the standard 30s will be sufficient)
 
 Some sort of database / dashboard showing a leaderboard of finders, how many people have found each cache, fastest time to find etc could add to the competitive feel. 
+
+Hibby MM0RFN pointed me to https://github.com/xssfox/repeaterrescue - although that's a relay control system, the hard work for coding around KISS/ax25 is already covered and should be hackable.
 
 ### APRS radio system 
 While the submission of cache finds *can* be done via a web based form, the size of the message lends itself to being submitted via an APRS message. How to incorporate this into the scoring is left as an exercise for the reader. 
