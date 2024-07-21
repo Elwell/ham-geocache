@@ -12,6 +12,7 @@ This can be a traditional low power transmitter, however it should also have an 
 
 GPS lock (for timing, possible uplink of position to admin side) is power hungry, need to power down for best battery life. Do we also only want TOTP dispayed on button press? Keep internal log for later validation (we at least will know *time* someone pressed button, even if we don't know *who*
 
+Realistically, a DS3231 i2c chip is probably good enough for keeping time, and has the advantage of extensive arduino / ESP support. There's probably sufficient components in ESPHome (display, clock, buttons, GPS if needed, Deep Sleep) to bodge this together.
 
 ### coordinator / scoring system
 Likely a simple web application - A participant can register a 'find' by sending the cache ID and TOTP code to the coordinator. If the code is valid (secret hash decodes OK within time window) the participant (validated via their Callsign / APRS passphrase) gains a score. 
@@ -21,6 +22,8 @@ Using the TOTP in addition to the cache ID should prevent replay attacks (only t
 Some sort of database / dashboard showing a leaderboard of finders, how many people have found each cache, fastest time to find etc could add to the competitive feel. 
 
 Hibby MM0RFN pointed me to https://github.com/xssfox/repeaterrescue - although that's a relay control system, the hard work for coding around KISS/ax25 is already covered and should be hackable.
+
+Interfacing with aprs-is (I'm relying on their being suitable i-gate coverage already in the playing arena not to need to directly talk on radio) can either be done directly with socket connection (aprslib could be useful) in the app(s) or perhaps use aprsd (https://aprsd.readthedocs.io/en/latest/) and code the validation part as a plugin?
 
 ### APRS radio system 
 While the submission of cache finds *can* be done via a web based form, the size of the message lends itself to being submitted via an APRS message. How to incorporate this into the scoring is left as an exercise for the reader. 
